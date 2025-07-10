@@ -50,15 +50,33 @@ except ImportError:
     )
     _ext_headers = glob.glob(osp.join(_ext_src_root, "include", "*"))
 
-    os.environ["TORCH_CUDA_ARCH_LIST"] = "3.7+PTX;5.0;6.0;6.1;6.2;7.0;7.5"
+    # os.environ["TORCH_CUDA_ARCH_LIST"] = "3.7+PTX;5.0;6.0;6.1;6.2;7.0;7.5"
+    # _ext = load(
+    #     "_ext",
+    #     sources=_ext_sources,
+    #     extra_include_paths=[osp.join(_ext_src_root, "include")],
+    #     extra_cflags=["-O3"],
+    #     extra_cuda_cflags=["-O3", "-Xfatbin", "-compress-all"],
+    #     with_cuda=True,
+    # )
+
+    os.environ["TORCH_CUDA_ARCH_LIST"] = "5.0;6.0;6.1;6.2;7.0;7.5;8.9"
     _ext = load(
         "_ext",
         sources=_ext_sources,
         extra_include_paths=[osp.join(_ext_src_root, "include")],
         extra_cflags=["-O3"],
-        extra_cuda_cflags=["-O3", "-Xfatbin", "-compress-all"],
+        extra_cuda_cflags=[
+            "-O3", "-Xfatbin", "-compress-all",
+            "-gencode=arch=compute_50,code=sm_50",
+            "-gencode=arch=compute_60,code=sm_60",
+            "-gencode=arch=compute_61,code=sm_61",
+            "-gencode=arch=compute_70,code=sm_70",
+            "-gencode=arch=compute_75,code=sm_75"
+        ],
         with_cuda=True,
     )
+
     
 
 

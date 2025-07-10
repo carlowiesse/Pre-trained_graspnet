@@ -24,7 +24,7 @@ except:
     import __builtin__ as builtins
 
 try:
-    import pointnet2_._ext as _ext
+    import pointnet2._ext as _ext
 except ImportError:
     # import os.path as osp
     # import os
